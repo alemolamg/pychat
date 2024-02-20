@@ -1,4 +1,5 @@
 import socket
+import threading
 
 class Client:
     def __init__(self, host, port):
@@ -23,8 +24,10 @@ class Client:
     def start(self):
         self.client_socket.connect((self.host, self.port))
         print("Connected to server.")
-        self.receive_messages(self)
-        self.send_message(self)
+        receive_thread = threading.Thread(target=self.receive_messages)
+        receive_thread.start()
+        send_thread = threading.Thread(target=self.send_message)
+        send_thread.start()
 
 if __name__ == "__main__":
     client = Client("localhost", 3000)

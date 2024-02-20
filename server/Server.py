@@ -23,6 +23,6 @@ class Server:
             client_socket, client_address = self.server_socket.accept()
             print("Client connected:", client_address)
             self.clients.append(client_socket)
-            client_socket.start()
+            # client_socket.start()
 
 
