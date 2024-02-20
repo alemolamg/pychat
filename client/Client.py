@@ -2,11 +2,11 @@ import socket
 import threading
 
 class Client:
-    def __init__(self, host, port):
+    def __init__(self, host = "localhost", port = "3000"):
         self.host = host
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.username = input("Enter your username: ")
+        self.username = input("Enter username: ")
 
     def receive_messages(self):
         while True:
@@ -19,10 +19,12 @@ class Client:
             message = input()
             if message.lower() == "exit":
                 break
-            self.client_socket.send("{}: {}".format(self.username, message).encode())
+            if len(message) > 0:
+                self.client_socket.send("{}: {}".format(self.username, message).encode())
 
+    # Start client
     def start(self):
-        self.client_socket.connect((self.host, self.port))
+        self.client_socket.connect((self.host, self.port)) # Connet to server
         print("Connected to server.")
         receive_thread = threading.Thread(target=self.receive_messages)
         receive_thread.start()
