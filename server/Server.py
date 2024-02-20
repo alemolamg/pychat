@@ -4,7 +4,7 @@ import threading
 
 # Server Class
 class Server:
-    def __init__(self, host="localhost", port=3000):
+    def __init__(self, host="localhost", port=12345):
         self.host = host  # Host IP
         self.port = port  # Port to listen
         self.clients = []  # List of Clients
@@ -24,7 +24,7 @@ class Server:
     # Send message to clients
     def broadcast_message(self, message, sender):
         for client in self.clients:
-            if client != sender:
+            if client != sender:  # Not sender client
                 try:
                     client.send(message.encode())
                 except:

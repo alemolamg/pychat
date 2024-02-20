@@ -32,5 +32,5 @@ class Client:
         send_thread.start()
 
 if __name__ == "__main__":
-    client = Client("localhost", 3000)
+    client = Client("localhost", 12345)
     client.start()
