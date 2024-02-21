@@ -7,12 +7,10 @@ class Server:
     def __init__(self, host="localhost", port=12345):
         self.host = host  # Host IP
         self.port = port  # Port to listen
-        self.clients = []  # List of Clients
-        self.server_socket = socket.socket(
-            socket.AF_INET, socket.SOCK_STREAM
-        )  # Socket connection
+        self.clients = []  # List for connect clients
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Socket connection
         self.server_socket.bind((self.host, self.port))
-        self.server_socket.listen()
+        self.server_socket.listen(4) # Start to listen, max 4 connections
         print("Server listening on {}:{}".format(self.host, self.port))
 
     # Remove client and close connection
@@ -55,13 +53,18 @@ class Server:
 
     # Start client
     def start(self):
-        while True:
-            client_socket, client_address = (
-                self.server_socket.accept()
-            )  # accept client connection
-            print("Client connected:", client_address)
-            self.clients.append(client_socket)  # Add client to
-            client_thread = threading.Thread(
-                target=self.add_client, args=(client_socket,)
-            )
-            client_thread.start()
+        try:
+            while True:
+                client_socket, client_address = (
+                    self.server_socket.accept()
+                )  # accept client connection
+                print("Client connected:", client_address)
+                self.clients.append(client_socket)
+                client_thread = threading.Thread(
+                    target=self.add_client, args=(client_socket,)
+                )
+                client_thread.start()
+        except KeyboardInterrupt:   
+            print("Shutting down server.")
+            self.server_socket.close()
+            raise SystemExit()
