@@ -11,7 +11,7 @@ class Client:
 
     def receive_messages(self):
         try:
-            while self.connected:
+            while True:
                 message = self.client_socket.recv(1024).decode()
                 if message:
                     print(message)
@@ -20,10 +20,9 @@ class Client:
 
     def send_message(self):
         try:
-            while self.connected:
+            while True:
                 message = input()
                 if message.lower() == "exit":   # Exit from server
-                    self.connected = False
                     break
                 if len(message) > 0:
                     self.client_socket.send("{}: {}".format(self.username, message).encode())

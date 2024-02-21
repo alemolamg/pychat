@@ -1,3 +1,4 @@
+from datetime import datetime
 import socket
 import threading
 
@@ -8,9 +9,11 @@ class Server:
         self.host = host  # Host IP
         self.port = port  # Port to listen
         self.clients = []  # List for connect clients
-        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # Socket connection
+        self.server_socket = socket.socket(
+            socket.AF_INET, socket.SOCK_STREAM
+        )  # Socket connection
         self.server_socket.bind((self.host, self.port))
-        self.server_socket.listen(4) # Start to listen, max 4 connections
+        self.server_socket.listen(4)  # Start to listen, max 4 connections
         print("Server listening on {}:{}".format(self.host, self.port))
 
     # Remove client and close connection
@@ -30,8 +33,10 @@ class Server:
 
     # Save message on logs file
     def save_message(self, message):
+        timestamp = datetime.now().strftime("%d-%m-%YT%H:%M:%S")  # get timestand
+        time_message = "{} - {}\n".format(timestamp, message)  # create log
         log_file = open("chat_history.log", "a")  # Open file
-        log_file.write(message + "\n")  # Add last message
+        log_file.write(time_message)  # Add last message
         log_file.flush()  # Save file
 
     # Add client socket connection
@@ -64,7 +69,7 @@ class Server:
                     target=self.add_client, args=(client_socket,)
                 )
                 client_thread.start()
-        except KeyboardInterrupt:   
+        except KeyboardInterrupt:
             print("Shutting down server.")
             self.server_socket.close()
             raise SystemExit()
