@@ -33,9 +33,8 @@ class Server:
     # Save message on logs file
     def save_message(self, message):
         timestamp = datetime.now().strftime("%d-%m-%YT%H:%M:%S")  # get timestand
-        time_message = "{} - {}\n".format(timestamp, message)  # create log
         log_file = open("chat_history.log", "a")  # Open file
-        log_file.write(time_message)  # Add last message
+        log_file.write("{} - {}\n".format(timestamp, message))  # Add last message
         log_file.flush()  # Save file
 
     # Add client socket connection

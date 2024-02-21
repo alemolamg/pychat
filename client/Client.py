@@ -1,14 +1,14 @@
 import socket
-import threading
+from concurrent.futures import ThreadPoolExecutor
 
 
 class Client:
-    def __init__(self, host="localhost", port="12345"):
+    def __init__(self, host="localhost", port=12345):
         self.host = host
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.username = input("Enter username: ")
-        self.connected = False
+        self.executor = ThreadPoolExecutor(max_workers=2)
 
     def receive_messages(self):
         try:
@@ -40,19 +40,15 @@ class Client:
     def start(self):
         try:
             self.client_socket.connect((self.host, self.port))  # Connet to server
-            self.connected = True
             print("Connected to server.")
 
-            receive_thread = threading.Thread(
-                target=self.receive_messages
-            )  # receive message thread
-            receive_thread.start()
-
-            send_thread = threading.Thread(
-                target=self.send_message
-            )  # send message thread
-            send_thread.start()
+            self.executor.submit(self.receive_messages)
+            self.executor.submit(self.send_message)
 
         except Exception as e:
             print("Error:", e)
             self.close_connection()
+
+if __name__ == "__main__":
+    client = Client()
+    client.start()
