@@ -1,0 +1,15 @@
+# Usa una imagen base de Python
+FROM python:alpine
+
+# Establece el directorio de trabajo en /app
+WORKDIR /app
+
+# Copia los archivos necesarios al contenedor
+COPY Client.py .
+COPY main.py .
+
+# Instala las dependencias si las hay
+# RUN pip install ...
+
+# Ejecuta el cliente
+CMD ["python", "main.py"]
