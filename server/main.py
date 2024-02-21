@@ -1,5 +1,10 @@
 # Server Main
+import sys
 from Server import Server
 
-server = Server("localhost", 12345)
+if len(sys.argv) != 3:
+    server = Server()
+else:
+    server = Server(str(sys.argv[1]), int(sys.argv[2]))
+
 server.start()
