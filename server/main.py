@@ -1,5 +1,5 @@
 # Server Main
-import Server as serverService
+from Server import Server
 
-server = serverService.Server("localhost", 12345)
+server = Server("localhost", 12345)
 server.start()
