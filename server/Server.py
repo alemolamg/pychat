@@ -1,20 +1,19 @@
-from datetime import datetime
-import socket
-import threading
-
-
 # Server Class
+import socket
+from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
+
+
 class Server:
     def __init__(self, host="localhost", port=12345):
         self.host = host  # Host IP
         self.port = port  # Port to listen
         self.clients = []  # List for connect clients
-        self.server_socket = socket.socket(
-            socket.AF_INET, socket.SOCK_STREAM
-        )  # Socket connection
+        self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((self.host, self.port))
         self.server_socket.listen(4)  # Start to listen, max 4 connections
         print("Server listening on {}:{}".format(self.host, self.port))
+        self.executor = ThreadPoolExecutor(max_workers=10)
 
     # Remove client and close connection
     def remove_client(self, client):
@@ -60,16 +59,14 @@ class Server:
     def start(self):
         try:
             while True:
-                client_socket, client_address = (
-                    self.server_socket.accept()
-                )  # accept client connection
+                # accept client connection
+                client_socket, client_address = self.server_socket.accept()
                 print("Client connected:", client_address)
+
                 self.clients.append(client_socket)
-                client_thread = threading.Thread(
-                    target=self.add_client, args=(client_socket,)
-                )
-                client_thread.start()
+                self.executor.submit(self.add_client, client_socket)
         except KeyboardInterrupt:
             print("Shutting down server.")
+            self.executor.shutdown()
             self.server_socket.close()
             raise SystemExit()
