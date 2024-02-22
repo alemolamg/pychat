@@ -16,7 +16,7 @@ class Client:
                 message = self.client_socket.recv(1024).decode()
                 if message:
                     print(message)
-        except:
+        except ConnectionResetError:
             self.close_connection()
 
     def send_message(self):
@@ -27,7 +27,7 @@ class Client:
                     break
                 if len(message) > 0:
                     self.client_socket.send("{}: {}".format(self.username, message).encode())
-        except:
+        except ConnectionError:
             self.close_connection()
 
     # Created not to repeat

@@ -6,8 +6,8 @@ from datetime import datetime
 
 class Server:
     def __init__(self, host="localhost", port=12345):
-        self.host = host  # Host IP
-        self.port = port  # Port to listen
+        self.host = host
+        self.port = port
         self.clients = []  # List for connect clients
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((self.host, self.port))
@@ -27,15 +27,18 @@ class Server:
             if client != sender:  # Not sender client
                 try:
                     client.send(message.encode())
-                except:
+                except ConnectionError:
                     self.remove_client(client)
 
     # Save message on logs file
     def save_message(self, message):
-        timestamp = datetime.now().strftime("%d-%m-%YT%H:%M:%S")  # get timestand
-        log_file = open("chat_history.log", "a")  # Open file
-        log_file.write("{} - {}\n".format(timestamp, message))  # Add last message
-        log_file.flush()  # Save file
+        try:
+            timestamp = datetime.now().strftime("%d-%m-%YT%H:%M:%S")  # get timestand
+            log_file = open("chat_history.log", "a")  # Open file
+            log_file.write("{} - {}\n".format(timestamp, message))  # Add last message
+            log_file.flush()  # Save file
+        except IOError as e:  # Write error
+            print("Error writing to log file:", e)
 
     # Add client socket connection
     def add_client(self, client_socket):
@@ -51,7 +54,7 @@ class Server:
                 else:
                     self.remove_client(client_socket)  # Client is out of server
                     break
-        except:
+        except ConnectionResetError:
             self.remove_client(client_socket)
 
     # Start client
@@ -64,6 +67,7 @@ class Server:
 
                 self.clients.append(client_socket)
                 self.executor.submit(self.add_client, client_socket)
+
         except KeyboardInterrupt:
             print("Shutting down server.")
             self.executor.shutdown()
