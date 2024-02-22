@@ -8,8 +8,5 @@ WORKDIR /app
 COPY Client.py .
 COPY main.py .
 
-# Instala las dependencias si las hay
-# RUN pip install ...
-
 # Ejecuta el cliente
 CMD ["python", "main.py"]

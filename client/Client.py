@@ -64,8 +64,3 @@ class Client:
         except Exception as e:
             print("Error:", e)
             self.close_connection()
-
-
-if __name__ == "__main__":
-    client = Client()
-    client.start()

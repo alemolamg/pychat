@@ -47,7 +47,7 @@ A la hora de enviar o recibir los mensajes, se ha optado por el uso de dos hilos
 
 Para terminar, se ha creado un archivo ***main.py*** para cada servicio, de cara a poder parametrizarlo a la hora de elegir la dirección IP del servidor, como el puerto que utilice.
 
-## Bibiografía
+## Documentación
 
 - [Documentación Python Sockets](https://docs.python.org/es/3/howto/sockets.html)
 - [Libro Python Avanzado](https://www.amazon.es/Python-avanzado-en-fin-semana/dp/B08XLGJQQG/ref=tmm_pap_swatch_0?_encoding=UTF8&qid=&sr=)
