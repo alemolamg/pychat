@@ -13,6 +13,8 @@ class Client:
     def receive_messages(self):
         try:
             while True:
+                if self.running is False:
+                    break
                 message = self.client_socket.recv(1024).decode()
                 if message:
                     print(message)
@@ -23,15 +25,21 @@ class Client:
         try:
             while True:
                 message = input()
-                if message.lower() == "exit":  # Exit from server
+                if (
+                    message.lower() == "exit" or self.running is False
+                ):  # Exit from server
                     break
+
                 if len(message) > 0:
-                    self.client_socket.send("{}: {}".format(self.username, message).encode())
+                    self.client_socket.send(
+                        "{}: {}".format(self.username, message).encode()
+                    )
         except ConnectionError:
             self.close_connection()
 
     # Created not to repeat
     def close_connection(self):
+        self.running = False
         print("Connection closed.")
         self.client_socket.close()
         raise SystemExit()
@@ -42,12 +50,21 @@ class Client:
             self.client_socket.connect((self.host, self.port))  # Connet to server
             print("Connected to server.")
 
+            self.running = True  # Client is running
             self.executor.submit(self.receive_messages)
             self.executor.submit(self.send_message)
+
+            while self.running and self.client_socket.fileno() > 0:
+                pass
+
+        except KeyboardInterrupt:
+            self.close_connection()
+            print("Close client")
 
         except Exception as e:
             print("Error:", e)
             self.close_connection()
+
 
 if __name__ == "__main__":
     client = Client()
