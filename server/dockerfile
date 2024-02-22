@@ -1,19 +1,12 @@
-# Usa una imagen base de Python
+# Python image with Alpine Linux
 FROM python:alpine
 
-# Establece el directorio de trabajo en /app
+# Work dictory 
 WORKDIR /app
 
-# Copia los archivos necesarios al contenedor
+# Copy 
 COPY Server.py .
 COPY main.py .
 
-# Define las variables de entorno para HOST y PORT
-ENV HOST=${HOST}
-ENV PORT=${PORT}
-
-# Instala las dependencias si las hay
-# RUN pip install ...
-
-# Ejecuta el servidor
-CMD ["python", "main.py", HOST, PORT ]
+# Run server
+CMD ["python", "main.py"]
