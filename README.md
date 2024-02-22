@@ -1,4 +1,30 @@
-# PyChat
+# Chat en Python
+
+## Planteamiento
+
+### ¿En qué consiste?
+
+La prueba consistiría en realizar un chat entre dos PC usando Python en una arquitectura clientes/servidor.
+
+Script a) - Servidor
+
+Script b) - Clientes
+
+El objetivo que 2 clientes se conecten al servidor, y a partir de ahí, ambos puedan intercambiarse mensajes.
+
+![Connection picture](./media/image.png)
+
+Todos los mensajes, los debes guardar en un log de mensajes.
+
+Los mensajes a enviar deben ser de forma asíncrona (enviar mensajes sin necesidad de una recepción previa).
+
+### Puntos Clave
+
+- Buenas prácticas de programación.
+- Control de errores
+- Código comentado (inglés).
+- Estructura de código (estructuración de clases, etc).
+- Sistema dockerizado (separar docker servidor y docker cliente).
 
 ## Bibiografía
 
