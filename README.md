@@ -16,7 +16,7 @@ El objetivo es que 2 clientes se conecten al servidor, y a partir de ahí, ambos
 
 Todos los mensajes, los debes guardar en un log de mensajes.
 
-Los mensajes que enviar deben ser de forma asíncrona (enviar mensajes sin necesidad de una recepción previa).
+Los mensajes que se envian deben ser de forma asíncrona (enviar mensajes sin necesidad de una recepción previa).
 
 ### Puntos Clave
 
@@ -30,7 +30,7 @@ Los mensajes que enviar deben ser de forma asíncrona (enviar mensajes sin neces
 
 ### Servidor
 
-Para comenzar se ha realizado el [servidor](./server/Server.py), donde ser administra las conexiones de los usuarios, reenvía  los mensajes a los clientes y guarda los mensajes recibidos en el archivo llamado ***chat_history.log***.
+Para comenzar se ha creado el [servidor](./server/Server.py), donde se administra las conexiones de los usuarios, reenvía los mensajes a los clientes y guarda los mensajes recibidos en el archivo llamado ***chat_history.log***.
 
 Para llevar a cabo las conexiones, se ha utilizado la clase socket, con la configuración: `socket(socket.AF_INET, socket.SOCK_STREAM)`; donde el argumento `socket.AF_INET` especifica que se utilizará la familia de direcciones de Internet IPv4. El argumento `socket.SOCK_STREAM` nos especifica que estamos ante un socket de flujo. Los socket de flujo proporcionan una conexión bidireccional y confiable entre dos programas, utilizando el protocolo TCP.
 
@@ -45,9 +45,18 @@ A la hora de enviar o recibir los mensajes, se ha optado por el uso de dos hilos
 
 ### Común
 
-Para terminar, se ha creado un archivo ***main.py*** para cada servicio, de cara a poder parametrizarlo a la hora de elegir la dirección IP del servidor, como el puerto que utilice.
+Para terminar, se ha creado un archivo ***main.py*** para cada servicio, de cara a poder parametrizarlo a la hora de elegir la dirección IP del servidor.
 
-## Documentación
+## Docker
+
+Se han creado dos archivos dockerfile, uno en cada carpeta para crear las imagenes.
+Para ejecutar los docker, se han usado los siguientes comandos sobre los ficheros dockerfile:
+
+Server: `docker run -it -p 12345:12345 --name=pychat-server --network=chatNetwork pychat-server`
+
+Clients: `docker run -it --network chatNetwork pychat-client pychat-server`
+
+## Fuentes documentales
 
 - [Documentación Python Sockets](https://docs.python.org/es/3/howto/sockets.html)
 - [Libro Python Avanzado](https://www.amazon.es/Python-avanzado-en-fin-semana/dp/B08XLGJQQG/ref=tmm_pap_swatch_0?_encoding=UTF8&qid=&sr=)

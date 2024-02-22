@@ -8,7 +8,5 @@ WORKDIR /app
 COPY Client.py .
 COPY main.py .
 
-ENV HOST=${HOST}
-
 # Ejecuta el cliente
-CMD ["python", "main.py", HOST]
+ENTRYPOINT ["python", "main.py"]
