@@ -10,7 +10,7 @@ Script a) - Servidor
 
 Script b) - Clientes
 
-El objetivo que 2 clientes se conecten al servidor, y a partir de ahí, ambos puedan intercambiarse mensajes.
+El objetivo es que 2 clientes se conecten al servidor, y a partir de ahí, ambos puedan intercambiarse mensajes.
 
 ![Connection picture](./media/image.png)
 
@@ -25,6 +25,14 @@ Los mensajes a enviar deben ser de forma asíncrona (enviar mensajes sin necesid
 - Código comentado (inglés).
 - Estructura de código (estructuración de clases, etc).
 - Sistema dockerizado (separar docker servidor y docker cliente).
+
+## Desarrollo
+
+Para comenzar se ha realizado el [servidor](./server/Server.py), donde ser administra las conexiones de los usuarios, reenvia los mensajes a los clientes y guarda los mensajes recibidos en el archivo llamado ***chat_history.log***.
+
+El siguiente paso fue crear el [cliente](./client/Client.py), que es capaz de recibir y enviar mensajes de forma asíncrona. Para solucionar este problema se usa la clase **ThreadPoolExecutor**, que permite utilizar diferentes hilos para todas las acciones y conseguir recibir y/o enviar mensajes sin tener que esperar a que termine otro proceso.
+
+Para terminar, se ha creado un archivo ***main.py*** para cada servicio, de cara a poder parametrizarlo a la hora de elegir la dirección IP del servidor, como el puerto que utilice.
 
 ## Bibiografía
 

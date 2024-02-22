@@ -8,10 +8,10 @@ class Server:
     def __init__(self, host="localhost", port=12345):
         self.host = host
         self.port = port
-        self.clients = []  # List for connect clients
+        self.clients = []  # Connect client list
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.server_socket.bind((self.host, self.port))
-        self.server_socket.listen(4)  # Start to listen, max 4 connections
+        self.server_socket.listen(5)  # Start to listen, max 5 connections
         print("Server listening on {}:{}".format(self.host, self.port))
         self.executor = ThreadPoolExecutor(max_workers=10)
 
@@ -24,7 +24,7 @@ class Server:
     # Send message to clients
     def broadcast_message(self, message, sender):
         for client in self.clients:
-            if client != sender:  # Not sender client
+            if client != sender:  # Not owner client
                 try:
                     client.send(message.encode())
                 except ConnectionError:
@@ -34,11 +34,12 @@ class Server:
     def save_message(self, message):
         try:
             timestamp = datetime.now().strftime("%d-%m-%YT%H:%M:%S")  # get timestand
-            log_file = open("chat_history.log", "a")  # Open file
-            log_file.write("{} - {}\n".format(timestamp, message))  # Add last message
+            log_file = open("chat_history.log", "a")  # Open logs file
+            log_file.write("{} - {}\n".format(timestamp, message))
             log_file.flush()  # Save file
-        except IOError as e:  # Write error
+        except IOError as e:
             print("Error writing to log file:", e)
+            self.executor.shutdown()
 
     # Add client socket connection
     def add_client(self, client_socket):

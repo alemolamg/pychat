@@ -8,7 +8,7 @@ class Client:
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.username = input("Enter username: ")
-        self.executor = ThreadPoolExecutor(max_workers=2)
+        self.executor = ThreadPoolExecutor(max_workers=3)
 
     def receive_messages(self):
         try:
