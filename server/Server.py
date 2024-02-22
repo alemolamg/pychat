@@ -34,9 +34,10 @@ class Server:
     def save_message(self, message):
         try:
             timestamp = datetime.now().strftime("%d-%m-%YT%H:%M:%S")  # get timestand
-            log_file = open("chat_history.log", "a")  # Open logs file
-            log_file.write("{} - {}\n".format(timestamp, message))
-            log_file.flush()  # Save file
+            with open("chat_history.log", "a") as f:
+                f.write("{} - {}\n".format(timestamp, message))
+                f.close
+
         except IOError as e:
             print("Error writing to log file:", e)
             self.executor.shutdown()
