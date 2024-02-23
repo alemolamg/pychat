@@ -8,8 +8,9 @@ class Client:
         self.port = port
         self.client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.username = input("Enter username: ")
-        self.executor = ThreadPoolExecutor(max_workers=3)
+        self.executor = ThreadPoolExecutor(max_workers=3)  # Max of threads
 
+    # Receive messages
     def receive_messages(self):
         try:
             while True:
@@ -21,12 +22,13 @@ class Client:
         except ConnectionResetError:
             self.close_connection()
 
+    # Send messages
     def send_message(self):
         try:
             while True:
                 message = input()
                 if (
-                    message.lower() == "exit" or self.running is False
+                    message.lower() == "exit" or self.running is False  # Exit to finish
                 ):  # Exit from server
                     break
 
@@ -57,7 +59,7 @@ class Client:
             while self.running and self.client_socket.fileno() > 0:
                 pass
 
-        except KeyboardInterrupt:
+        except KeyboardInterrupt:  # Close connection with Control + C
             self.close_connection()
             print("Close client")
 
