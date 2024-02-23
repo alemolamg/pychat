@@ -1,12 +1,12 @@
-# Usa una imagen base de Python
+# Python image with Alpine Linux
 FROM python:alpine
 
-# Establece el directorio de trabajo en /app
+# Work dictory 
 WORKDIR /app
 
-# Copia los archivos necesarios al contenedor
+# Copy files
 COPY Client.py .
 COPY main.py .
 
-# Ejecuta el cliente
+# Run client
 ENTRYPOINT ["python", "main.py"]

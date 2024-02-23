@@ -49,12 +49,19 @@ Para terminar, se ha creado un archivo ***main.py*** para cada servicio, de cara
 
 ## Docker
 
-Se han creado dos archivos dockerfile, uno en cada carpeta para crear las imagenes.
+Se han creado dos archivos dockerfile, uno en cada carpeta para crear las imagenes. Los comandos para crear las imagenes son:
+
+Server: `docker build -t pychat-server ./server/`
+
+Client: `docker build -t pychat-client ./client/`
+
 Para ejecutar los docker, se han usado los siguientes comandos sobre los ficheros dockerfile:
 
 Server: `docker run -it -p 12345:12345 --name=pychat-server --network=chatNetwork pychat-server`
 
 Clients: `docker run -it --network chatNetwork pychat-client pychat-server`
+
+Al cliente le pasamos un parámetro `pychat-server` para identificar el servidor.
 
 ## Fuentes documentales
 

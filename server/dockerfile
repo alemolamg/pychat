@@ -4,7 +4,7 @@ FROM python:alpine
 # Work dictory 
 WORKDIR /app
 
-# Copy 
+# Copy files
 COPY Server.py .
 COPY main.py .
 
