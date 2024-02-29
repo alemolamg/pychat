@@ -57,6 +57,8 @@ Client: `docker build -t pychat-client ./client/`
 
 Para ejecutar los docker, se han usado los siguientes comandos sobre los ficheros dockerfile:
 
+Creación de la network: `docker network create chatNetwork`.
+
 Server: `docker run -it -p 12345:12345 --name=pychat-server --network=chatNetwork pychat-server`
 
 Clients: `docker run -it --network chatNetwork pychat-client pychat-server`
