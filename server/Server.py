@@ -1,7 +1,10 @@
 # Server Class
+from pydoc import cli
 import socket
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
+import Log
+import LogType
 
 
 class Server:
@@ -18,6 +21,7 @@ class Server:
     # Remove client and close connection
     def remove_client(self, client):
         if client in self.clients:
+            print("Client exit, {}".format(client.client_adress))
             client.close()  # Close socket connection
             self.clients.remove(client)  # Remove client from client list
 
@@ -33,10 +37,7 @@ class Server:
     # Save message on logs file
     def save_message(self, message):
         try:
-            timestamp = datetime.now().strftime("%d-%m-%YT%H:%M:%S")  # get timestand
-            with open("chat_history.log", "a") as f:
-                f.write("{} - {}\n".format(timestamp, message))
-                f.close
+            Log.Log(message, LogType.DEBUG )
 
         except IOError as e:
             print("Error writing to log file:", e)
